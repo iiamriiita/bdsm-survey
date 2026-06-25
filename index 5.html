@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BDSM Long-Distance Preferences Survey</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#fff;--bg2:#f7f7f5;--bg3:#efefec;
+  --text:#1a1a1a;--text2:#666;--text3:#aaa;
+  --border:rgba(0,0,0,.10);--border2:rgba(0,0,0,.20);--border3:rgba(0,0,0,.38);
+  --green:#1e6e34;--green-bg:#edfbf1;
+  --r:8px;--rl:12px;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#1c1c1c;--bg2:#272727;--bg3:#313131;
+  --text:#e4e4e4;--text2:#999;--text3:#555;
+  --border:rgba(255,255,255,.10);--border2:rgba(255,255,255,.20);--border3:rgba(255,255,255,.38);
+  --green:#4ade80;--green-bg:#0d2e19;
+}}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg3);color:var(--text);min-height:100vh;line-height:1.6}
+.wrap{max-width:700px;margin:0 auto;padding:24px 16px 110px}
+.lang-row{display:flex;gap:8px;align-items:center;margin-bottom:20px}
+.lang-btn{padding:5px 14px;border:.5px solid var(--border2);border-radius:var(--r);background:transparent;cursor:pointer;font-size:13px;color:var(--text2);font-family:inherit;transition:all .15s}
+.lang-btn.active{background:var(--bg2);color:var(--text);border-color:var(--border3)}
+h1{font-size:22px;font-weight:500;margin-bottom:6px}
+.sub{font-size:14px;color:var(--text2);line-height:1.5;margin-bottom:20px}
+
+/* step progress */
+.step-info{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.step-label{font-size:13px;color:var(--text2)}
+.step-filled{font-size:13px;color:var(--text3)}
+.prog-wrap{height:3px;background:var(--border);border-radius:2px;margin-bottom:6px;overflow:hidden}
+.prog-bar{height:100%;background:var(--text);border-radius:2px;transition:width .3s}
+.step-dots{display:flex;gap:4px;margin-bottom:24px;flex-wrap:wrap}
+.step-dot{width:8px;height:8px;border-radius:50%;background:var(--border);cursor:pointer;transition:all .2s;flex-shrink:0}
+.step-dot.active{background:var(--text);transform:scale(1.3)}
+.step-dot.done{background:var(--text2)}
+
+/* section */
+.sec-head{font-size:16px;font-weight:500;padding:10px 0;border-bottom:.5px solid var(--border);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.sec-icon{font-size:16px;color:var(--text2)}
+.q-card{background:var(--bg);border:.5px solid var(--border);border-radius:var(--rl);padding:14px 16px;margin-bottom:10px;transition:border-color .15s}
+.q-card:hover{border-color:var(--border2)}
+.q-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px}
+.q-num{font-size:11px;color:var(--text3);min-width:18px;padding-top:3px;flex-shrink:0}
+.q-text{font-size:14px;color:var(--text);line-height:1.5;flex:1}
+.q-info{width:18px;height:18px;border-radius:50%;border:.5px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;padding:0;transition:all .15s}
+.q-info:hover{background:var(--bg2)}
+.q-info i{font-size:11px;color:var(--text2)}
+.q-tip{display:none;margin:0 0 10px 26px;font-size:13px;color:var(--text2);background:var(--bg2);border-radius:var(--r);padding:8px 12px;line-height:1.5;border-left:2px solid var(--border2)}
+.q-tip.open{display:block}
+.rating-row{display:flex;align-items:center;gap:10px;margin-left:26px}
+.rl{font-size:11px;color:var(--text3);min-width:20px}
+.rl.right{text-align:right}
+input[type=range]{flex:1;height:4px;-webkit-appearance:none;appearance:none;background:var(--border);border-radius:2px;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--text);border:2px solid var(--bg);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--text);border:2px solid var(--bg);cursor:pointer;border:none}
+.r-val{font-size:13px;font-weight:500;min-width:20px;text-align:center}
+.note-toggle{font-size:12px;color:var(--text3);cursor:pointer;display:flex;align-items:center;gap:3px;margin:8px 0 0 26px;border:none;background:none;padding:0;font-family:inherit}
+.note-toggle:hover{color:var(--text2)}
+.note-area{margin:6px 0 0 26px;display:none}
+.note-area.open{display:block}
+.note-row{display:flex;gap:6px;align-items:flex-start}
+textarea{flex:1;border:.5px solid var(--border2);border-radius:var(--r);padding:8px 10px;font-size:13px;font-family:inherit;color:var(--text);background:var(--bg2);resize:vertical;min-height:56px;line-height:1.5}
+textarea:focus{outline:none;border-color:var(--border3)}
+.mic-btn{width:34px;height:34px;border-radius:50%;border:.5px solid var(--border2);background:var(--bg2);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2);flex-shrink:0;transition:all .15s}
+.mic-btn:hover{background:var(--bg3)}
+.mic-btn.recording{background:#fef2f2;border-color:#fca5a5;color:#b91c1c;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.mic-st{font-size:11px;color:var(--text3);margin-top:4px;min-height:14px}
+.mic-st.on{color:#b91c1c}
+
+.comm-card{background:var(--bg);border:.5px solid var(--border);border-radius:var(--rl);padding:14px 16px;margin-bottom:10px}
+.comm-label{font-size:14px;color:var(--text);margin-bottom:10px}
+.comm-opts{display:flex;flex-wrap:wrap;gap:6px}
+.comm-opt{padding:5px 14px;border:.5px solid var(--border2);border-radius:20px;font-size:13px;cursor:pointer;color:var(--text2);background:transparent;font-family:inherit;transition:all .15s}
+.comm-opt.sel{background:var(--bg2);border-color:var(--border3);color:var(--text)}
+.open-card{background:var(--bg);border:.5px solid var(--border);border-radius:var(--rl);padding:14px 16px;margin-bottom:10px}
+.open-label{font-size:14px;color:var(--text);margin-bottom:8px}
+.open-row{display:flex;gap:6px;align-items:flex-start}
+.open-ta{width:100%;min-height:72px}
+
+/* fixed nav */
+.fixed-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg);border-top:.5px solid var(--border);padding:12px 16px;z-index:100}
+.fixed-inner{max-width:700px;margin:0 auto;display:flex;gap:10px;justify-content:space-between;align-items:center}
+.btn{padding:9px 20px;border-radius:var(--r);font-size:14px;font-family:inherit;cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn-ghost{background:transparent;color:var(--text2);border:.5px solid var(--border2)}
+.btn-ghost:hover{border-color:var(--border3);color:var(--text)}
+.btn-primary{background:var(--text);color:var(--bg);border:none;font-weight:500}
+.btn-primary:hover{opacity:.83}
+.btn-sm{padding:7px 14px;font-size:13px}
+.nav-center{font-size:12px;color:var(--text3);text-align:center;flex:1}
+
+/* results */
+.res-header{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;justify-content:space-between;margin-bottom:24px}
+.res-title{font-size:22px;font-weight:500;margin-bottom:4px}
+.res-meta{font-size:13px;color:var(--text2)}
+.res-actions{display:flex;gap:8px;flex-wrap:wrap}
+.sort-btn,.share-btn{padding:7px 12px;border:.5px solid var(--border2);border-radius:var(--r);background:var(--bg2);color:var(--text2);font-size:13px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;white-space:nowrap}
+.sort-btn:hover,.share-btn:hover{border-color:var(--border3);color:var(--text)}
+.tr-bar{background:var(--bg2);border:.5px solid var(--border);border-radius:var(--r);padding:10px 14px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.tr-status{font-size:13px;color:var(--text2);flex:1}
+.res-sec{margin-bottom:24px}
+.res-sec-title{font-size:15px;font-weight:500;padding-bottom:8px;border-bottom:.5px solid var(--border);margin-bottom:12px}
+.res-item{display:flex;align-items:flex-start;gap:12px;padding:8px 0;border-bottom:.5px solid var(--border)}
+.res-item:last-child{border-bottom:none}
+.res-qtext{font-size:13px;color:var(--text);flex:1;line-height:1.4}
+.res-note{font-size:12px;color:var(--text2);margin-top:3px;font-style:italic}
+.res-note-tr{font-size:12px;color:var(--text3);margin-top:2px;font-style:italic}
+.score-wrap{display:flex;align-items:center;gap:8px;min-width:68px;padding-top:2px}
+.score-bar-bg{width:44px;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.score-bar{height:100%;border-radius:2px;background:var(--text)}
+.score-num{font-size:13px;font-weight:500;min-width:16px;text-align:right}
+.score-high{color:var(--green)}
+.open-ans{font-size:13px;background:var(--bg2);border-radius:var(--r);padding:8px 10px;margin-top:4px;line-height:1.5}
+.open-ans-tr{font-size:12px;color:var(--text2);background:var(--bg3);border-radius:var(--r);padding:6px 10px;margin-top:4px;line-height:1.5;font-style:italic}
+.export-row{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.shared-banner{background:var(--green-bg);border:.5px solid var(--green);border-radius:var(--r);padding:10px 14px;margin-bottom:20px;font-size:13px;color:var(--green);display:flex;align-items:center;gap:8px}
+.toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:8px 20px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:999;white-space:nowrap}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div id="vSurvey">
+  <div class="lang-row">
+    <i class="ti ti-language" style="font-size:16px;color:var(--text2)" aria-hidden="true"></i>
+    <button class="lang-btn active" onclick="setLang('en')" id="btnEn">English</button>
+    <button class="lang-btn" onclick="setLang('zh')" id="btnZh">中文</button>
+  </div>
+  <h1 id="sTitle"></h1>
+  <p class="sub" id="sSub"></p>
+  <div class="step-info"><span class="step-label" id="stepLabel"></span><span class="step-filled" id="stepFilled"></span></div>
+  <div class="prog-wrap"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
+  <div class="step-dots" id="stepDots"></div>
+  <div id="stepContent"></div>
+</div>
+
+<div id="vResults" style="display:none">
+  <div class="lang-row">
+    <i class="ti ti-language" style="font-size:16px;color:var(--text2)" aria-hidden="true"></i>
+    <button class="lang-btn active" onclick="setLang('en')" id="rBtnEn">English</button>
+    <button class="lang-btn" onclick="setLang('zh')" id="rBtnZh">中文</button>
+  </div>
+  <div id="sharedBanner" style="display:none"></div>
+  <div class="res-header">
+    <div><h1 id="rTitle"></h1><p class="res-meta" id="rMeta"></p></div>
+    <div class="res-actions">
+      <button class="sort-btn" onclick="toggleSort()"><i class="ti ti-arrows-sort" aria-hidden="true"></i><span id="sortLbl"></span></button>
+      <button class="share-btn" onclick="shareResults()"><i class="ti ti-link" aria-hidden="true"></i><span id="shareLbl"></span></button>
+    </div>
+  </div>
+  <div class="tr-bar" id="trBar">
+    <span class="tr-status" id="trStatus"></span>
+    <button class="btn btn-ghost btn-sm" onclick="runTranslation()" id="trBtn"></button>
+  </div>
+  <div id="resCont"></div>
+  <div class="export-row" id="exportRow">
+    <button class="btn btn-ghost" onclick="goBack()" id="rBack"></button>
+    <button class="btn btn-primary" onclick="exportText()" id="rExport"></button>
+  </div>
+</div>
+
+</div>
+
+<div class="fixed-bar" id="fixedBar">
+  <div class="fixed-inner">
+    <button class="btn btn-ghost" onclick="prevStep()" id="navPrev">←</button>
+    <span class="nav-center" id="navCenter"></span>
+    <button class="btn btn-primary" onclick="nextStep()" id="navNext">→</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────
+const S=[
+{id:'power',icon:'ti-crown',en:'Power Exchange & Authority',zh:'權力交換與支配',q:[
+{en:'Commanding you to perform non-sexual tasks',zh:'命令你執行非性相關任務',ie:'Being given instructions to complete everyday tasks as an expression of the power dynamic.',iz:'被要求完成日常任務作為權力關係的體現。'},
+{en:'Me choosing what you wear',zh:'由我決定你的穿著',ie:'Your partner selects your outfit — an intimate form of control over your presentation.',iz:'由對方選擇你的穿著——一種對外表的親密掌控。'},
+{en:'Me choosing your hairstyle, makeup, or accessories',zh:'由我決定你的髮型、妝容或配件',ie:'Extending appearance control beyond clothing to hair, makeup, or jewelry.',iz:'將外觀掌控延伸至髮型、妝容或飾品。'},
+{en:'Wearing a symbolic item representing our dynamic',zh:'佩戴象徵我們關係的物品',ie:'A collar, bracelet, ring worn as a private symbol of the D/s relationship.',iz:'佩戴項圈、手環、戒指作為D/s關係的象徵。'},
+{en:'Asking permission before certain activities',zh:'在某些活動前需要請求許可',ie:'Checking in before eating, going out, sleeping to reinforce authority.',iz:'在進食、外出、就寢前先行請示，強化權威結構。'},
+{en:'Having rules you are expected to follow daily',zh:'每天需要遵守的規則',ie:'A set of agreed rules governing daily behavior — posture, language, routines.',iz:'規範日常行為的約定規則——姿態、用語、例程。'},
+{en:'Being assigned responsibilities or duties by me',zh:'由我分配職責或任務',ie:'Regular duties given by the dominant that the submissive fulfills.',iz:'由主導者指派的定期職責，服從者須完成。'},
+{en:'Referring to me with a title or honorific',zh:'以稱謂或尊稱稱呼我',ie:'Addressing your partner as Sir, Daddy, Mistress, etc.',iz:'以大人、爸爸、女王等稱謂稱呼對方。'},
+{en:'Reporting to me at specific times',zh:'在特定時間向我彙報',ie:'Scheduled check-ins where you update your partner on your activities.',iz:'定時向對方彙報你的行動和感受。'},
+{en:'Having a formal dominant/submissive dynamic',zh:'建立正式的主/服從關係',ie:'A clearly defined D/s relationship with agreed roles and protocols.',iz:'明確定義D/s關係，包含約定的角色和禮儀。'},
+{en:'Fantasies where I have complete control',zh:'幻想我完全掌控你的行動和決定',ie:'Fantasies involving total obedience and surrender of decision-making.',iz:'涉及完全服從和放棄決策權的幻想。'},
+{en:'Giving me authority over your daily routine',zh:'將日常作息的部分權力交給我',ie:'Surrendering control over sleep schedule, diet, or exercise.',iz:'將睡眠、飲食、運動的控制權交給對方。'},
+{en:'Being corrected when you break rules',zh:'違反規則時被糾正',ie:'Receiving correction or consequence when an agreed rule is broken.',iz:'未遵守規則時接受糾正或後果。'},
+{en:'Receiving praise for obedience',zh:'因服從而獲得稱讚',ie:'"Good girl/boy" moments — positive reinforcement for compliance.',iz:'「乖女孩/乖男孩」——獎勵服從的正向強化。'},
+{en:'Temporary "24/7" power exchange',zh:'臨時性「24/7」式權力交換',ie:'Time-limited periods where the dynamic is in effect around the clock.',iz:'限時期間全天候實行權力交換。'},
+{en:'Giving you a daily routine or ritual',zh:'給你每日例程或儀式',ie:'A structured plan for your day set by your partner.',iz:'由對方設定的每日結構化計畫。'},
+{en:'Assigning recurring tasks',zh:'分配定期任務或職責',ie:'Ongoing assignments that repeat weekly or daily.',iz:'每週或每日重複的持續性任務。'},
+{en:'Reporting details of your day',zh:'向我彙報你的每日細節',ie:'Sharing a detailed account of your day for the dominant to review.',iz:'分享你一天的詳細記錄供主導者查閱。'},
+{en:'Check-ins at specific times',zh:'在特定時間回報',ie:'Mandatory messages at set times to maintain connection and structure.',iz:'在固定時間強制傳訊，維持聯繫和結構。'},
+{en:'Using titles (Sir, Daddy, Mistress, etc.)',zh:'使用稱謂（大人、爸爸、女王等）',ie:'Consistently using a chosen honorific as part of the dynamic.',iz:'持續使用選定的尊稱作為關係的一部分。'},
+{en:'Formal rules or protocols',zh:'正式規則或禮儀',ie:'Specific etiquette — how to speak, address your dominant, posture rules.',iz:'特定禮儀——說話方式、稱呼方式、姿態規則。'},
+{en:'Being punished for disobedience',zh:'因不服從而受到懲罰',ie:'Agreed consequences for breaking rules — tasks, restrictions, sanctions.',iz:'違反規則的約定後果——任務、限制或制裁。'},
+{en:'Point-based reward and punishment system',zh:'建立積分制獎懲系統',ie:'A gamified system where behavior earns or loses points.',iz:'遊戲化系統，良好行為積分，違規扣分。'},
+]},
+{id:'service',icon:'ti-list-check',en:'Service & Rituals',zh:'服從與儀式',q:[
+{en:'Completing regular tasks assigned by me',zh:'完成我分配的定期任務',ie:'Structured assignments given by your partner that you complete.',iz:'由對方給予的結構化任務。'},
+{en:'Daily check-ins or accountability tasks',zh:'每日回報或問責任務',ie:'Short daily rituals confirming you\'ve completed obligations.',iz:'確認已完成義務的簡短每日儀式。'},
+{en:'Writing reflections or journals for me',zh:'為我撰寫反思或日記',ie:'Keeping a written record of thoughts and feelings to share.',iz:'保存想法和感受的書面記錄與對方分享。'},
+{en:'Sending proof of completed assignments',zh:'發送任務完成的證明',ie:'Sending a photo or message to confirm task completion.',iz:'發送照片或訊息確認已完成任務。'},
+{en:'Having morning or bedtime rituals',zh:'有早晨或就寢儀式',ie:'Set routines that begin or end each day.',iz:'開始或結束每天的固定例程。'},
+{en:'Performing acts of service to please me',zh:'執行服務行為來取悅我',ie:'Doing things primarily to make your partner happy.',iz:'主要為了讓對方開心而做事。'},
+{en:'Reciting affirmations, mantras, or rules',zh:'背誦肯定語、咒語或規則',ie:'Repeating agreed phrases daily as a ritual.',iz:'每天重複約定的短語作為儀式。'},
+{en:'Maintaining a task streak over time',zh:'長期維持任務連續性',ie:'Keeping an unbroken chain of completed tasks — the streak motivates.',iz:'保持不間斷的任務完成鏈——連續本身成為動力。'},
+]},
+{id:'sexual',icon:'ti-flame',en:'Long-Distance Sexual Control',zh:'遠距性控制',q:[
+{en:'Being instructed when to masturbate',zh:'被指示何時自慰',ie:'Your partner schedules specific times for self-pleasure.',iz:'對方安排特定時間進行自我愉悅。'},
+{en:'Being instructed not to masturbate',zh:'被指示不得自慰',ie:'A restriction on self-pleasure unless permitted.',iz:'除非獲准，否則限制自我愉悅。'},
+{en:'Asking permission before orgasm',zh:'高潮前需要請求許可',ie:'Requesting consent before climaxing — deep intimate control.',iz:'高潮前需要同意——深度親密掌控。'},
+{en:'Delaying orgasm for me',zh:'為我延遲高潮',ie:'Holding back orgasm until your partner allows it.',iz:'延遲高潮直到對方允許。'},
+{en:'Being denied orgasm for a period',zh:'被拒絕高潮一段時間',ie:'Extended orgasm denial — building intensity and submission.',iz:'延長高潮拒絕——增強強度和服從感。'},
+{en:'Sending updates during sexual tasks',zh:'在性任務期間發送進度',ie:'Texting real-time updates while performing a sexual task.',iz:'執行性任務時發送即時進度更新。'},
+{en:'Sexual tasks while messaging or calling',zh:'傳訊或通話時執行性任務',ie:'Self-pleasure while simultaneously communicating.',iz:'同時溝通並進行自我愉悅。'},
+{en:'Following a structured edging challenge',zh:'遵循結構化的邊緣挑戰',ie:'Approaching but not reaching orgasm multiple times as directed.',iz:'按指示多次接近但不達到高潮。'},
+{en:'Being assigned erotic homework',zh:'被分配情色作業',ie:'Specific sexual tasks to complete alone, assigned by partner.',iz:'由對方指定獨自完成的特定性任務。'},
+{en:'Sexual activity monitored or tracked',zh:'性活動被監控或追蹤',ie:'Logging sexual activity for your partner to review.',iz:'記錄性活動供對方查閱。'},
+{en:'Scheduled sexual tasks throughout the week',zh:'每週安排性任務',ie:'A weekly calendar of assigned sexual activities.',iz:'每週安排的性活動日曆。'},
+]},
+{id:'comms',icon:'ti-message-2',en:'Communication & Erotic Expression',zh:'溝通與情色表達',q:[
+{en:'Write or speak an erotic story for me',zh:'為我寫或說情色故事',ie:'Creating original erotic fiction tailored to shared fantasies.',iz:'創作以共同幻想為主題的原創情色小說。'},
+{en:'Reading erotic stories together',zh:'一起閱讀情色故事',ie:'Sharing and reading erotica together, then discussing.',iz:'一起閱讀情色作品，然後討論感受。'},
+{en:'Watching porn together',zh:'一起觀看色情片',ie:'Synchronously watching content and discussing it.',iz:'同步觀看內容並加以討論。'},
+{en:'Sharing fantasies in detail',zh:'詳細分享幻想',ie:'Describing erotic scenarios in depth — intimacy through vulnerability.',iz:'詳細描述情慾場景——透過脆弱建立親密感。'},
+{en:'Describing desired sexual experiences',zh:'描述你想要的性體驗',ie:'Articulating specific acts or scenarios you wish to have.',iz:'表達你希望擁有的特定行為或場景。'},
+{en:'Roleplaying through text',zh:'透過文字角色扮演',ie:'Interactive text-based role-play in an erotic or D/s scenario.',iz:'互動文字角色扮演，在情慾或D/s場景中。'},
+{en:'Roleplaying through voice calls',zh:'透過語音通話角色扮演',ie:'Live voice role-play — adding tone, breath, real-time response.',iz:'即時語音角色扮演——加入語調、呼吸和即時回應。'},
+{en:'Recording erotic voice messages',zh:'錄製情色語音訊息',ie:'Sending audio with erotic instructions or expressions.',iz:'發送含有情色指令或表達的音頻。'},
+{en:'Writing fantasy journal entries',zh:'撰寫幻想日記',ie:'Keeping a journal of erotic thoughts to share.',iz:'保存情慾想法的日記與對方分享。'},
+{en:'Receiving erotic instructions throughout the day',zh:'全天接收情色指令',ie:'Unexpected texts with sexual commands during your day.',iz:'白天收到含有性命令的意外訊息。'},
+{en:'Receiving praise and affirmation',zh:'接受讚美和肯定',ie:'Words of affirmation about your submission or desirability.',iz:'針對你的服從或吸引力的肯定話語。'},
+{en:'Being called a good girl/boy',zh:'被稱為乖女孩/乖男孩',ie:'The specific phrase used as positive reinforcement — often powerfully felt.',iz:'作為正向強化的特定用語——通常感受強烈。'},
+{en:'Gentle teasing',zh:'溫柔挑逗',ie:'Playful, low-intensity teasing — building tension without pressure.',iz:'玩樂性、低強度的挑逗——無壓力下建立張力。'},
+]},
+{id:'porn',icon:'ti-eye',en:'Porn & Fantasy Sharing',zh:'色情與幻想分享',q:[
+{en:'Send me the porn you watch',zh:'把你看的色情片發給我',ie:'Sharing links to content you actually watch — vulnerability and intimacy.',iz:'分享你實際觀看的內容連結——脆弱和親密的表現。'},
+{en:'Choose porn depicting what you\'d try',zh:'選擇你想嘗試的色情片',ie:'Curating content as a way of communicating desires.',iz:'策劃內容作為表達慾望的方式。'},
+{en:'Discussing porn after watching',zh:'觀看後一起討論',ie:'Debriefing what you watched — what excited you, what didn\'t.',iz:'討論觀看內容——什麼讓你興奮、什麼沒有。'},
+{en:'Watching porn together',zh:'一起觀看色情片',ie:'Synchronized viewing — a shared erotic experience.',iz:'同步觀看——共享的情慾體驗。'},
+{en:'Sharing taboo or embarrassing fantasies',zh:'分享禁忌或尷尬的幻想',ie:'Revealing desires kept private due to shame — deepening trust.',iz:'揭露因羞恥而保密的慾望——加深信任。'},
+{en:'Fantasies that may never happen IRL',zh:'討論現實中不會發生的幻想',ie:'Exploring scenarios as pure fantasy with no expectation of acting out.',iz:'作為純粹幻想探索場景，不期待付諸實踐。'},
+{en:'Comparing fantasy vs real-life interest',zh:'比較幻想與現實的興趣程度',ie:'Distinguishing what excites in imagination vs what you\'d actually do.',iz:'區分想像中興奮的事物與實際想做的事物。'},
+]},
+{id:'obey',icon:'ti-award',en:'Submission & Obedience',zh:'服從與順從',q:[
+{en:'Following instructions without knowing why',zh:'不知道原因就服從指令',ie:'Trusting enough to comply without requiring explanation.',iz:'足夠信任，無需解釋就遵從。'},
+{en:'Completing inconvenient but harmless tasks',zh:'完成不方便但無害的任務',ie:'Tasks requiring effort but causing no harm — testing commitment.',iz:'需要努力但不造成傷害的任務——測試承諾。'},
+{en:'Being tested on your obedience',zh:'接受服從性測試',ie:'Surprise tests to see if you follow rules when no one watches.',iz:'測試你在無人監視時是否遵守規則。'},
+{en:'Having surprise assignments',zh:'接受意外任務',ie:'Unexpected tasks at any time — keeping you attentive.',iz:'隨時發送的意外任務——保持你的專注。'},
+{en:'Being held accountable for mistakes',zh:'為錯誤負責',ie:'Acknowledging failures and accepting consequences.',iz:'承認失敗並接受後果。'},
+{en:'Expected to respond promptly',zh:'被期望迅速回應指令',ie:'Timely responses to messages or commands expected.',iz:'對訊息或命令及時回應的期待。'},
+{en:'Rewarded for exceptional obedience',zh:'因出色服從而獲得獎勵',ie:'Special recognition when you go above and beyond.',iz:'超越期待時獲得特別認可。'},
+{en:'Structured training for submissive behavior',zh:'結構化訓練改善服從行為',ie:'A program to develop your submission over time.',iz:'隨時間發展和完善服從的計畫。'},
+]},
+{id:'humil',icon:'ti-mood-sad',en:'Humiliation & Degradation',zh:'羞辱與貶低',q:[
+{en:'Being teased about embarrassing habits',zh:'因尷尬習慣被取笑',ie:'Gentle teasing about personal quirks in a consensual way.',iz:'以合意方式溫和取笑個人怪癖。'},
+{en:'Mild verbal humiliation',zh:'輕度言語羞辱',ie:'Light verbal play using slightly demeaning language.',iz:'使用輕微貶低語言的言語遊戲。'},
+{en:'Strong verbal humiliation',zh:'強烈言語羞辱',ie:'Intense degrading language — requires explicit negotiation.',iz:'強烈的貶低語言——需要明確協商。'},
+{en:'Being called degrading names',zh:'被稱以貶低性稱呼',ie:'Specific agreed degrading terms used during play.',iz:'玩耍時使用特定約定的貶低稱謂。'},
+{en:'Being treated as inferior during play',zh:'在玩耍中被視為低下',ie:'Consensual fiction creating power contrast.',iz:'產生權力對比的合意虛構。'},
+{en:'Admitting embarrassing truths',zh:'被迫承認尷尬的事實',ie:'Confessing desires or behaviors that feel vulnerable.',iz:'承認讓人感到脆弱的慾望或行為。'},
+{en:'Public embarrassment only we understand',zh:'他人不會理解的公開尷尬',ie:'Subtle public acts only you and your partner understand.',iz:'只有你和對方知道意義的公開微妙行為。'},
+{en:'Being mocked playfully',zh:'被嬉戲嘲諷',ie:'Light, affectionate mockery within agreed bounds.',iz:'在約定範圍內的輕度親切嘲諷。'},
+{en:'Humiliation as a sexual reward',zh:'羞辱作為性獎勵',ie:'Degradation used as a pleasurable treat to earn.',iz:'貶低被用作愉悅獎勵。'},
+{en:'Humiliation as a punishment',zh:'羞辱作為懲罰',ie:'Degradation as consequence for rule-breaking.',iz:'貶低被用作違反規則的後果。'},
+]},
+{id:'exhib',icon:'ti-sparkles',en:'Exhibitionism & Risk',zh:'暴露癖與風險',q:[
+{en:'Secret sexual tasks while outside',zh:'外出時秘密執行性任務',ie:'Discreet sexual tasks in public — only you know.',iz:'在公開場合的謹慎性任務——只有你知道。'},
+{en:'Receiving sexual messages with friends',zh:'與朋友在一起時接收性訊息',ie:'Erotic texts while you\'re in a social setting — a secret thrill.',iz:'在社交場合收到情色訊息——秘密的刺激感。'},
+{en:'Wearing something under clothes because I said so',zh:'因命令在衣服下穿戴特定物品',ie:'A private secret carried throughout your day.',iz:'你整天攜帶的私人秘密。'},
+{en:'Subtle instructions in public',zh:'在公共場合遵從微妙指令',ie:'Instructions via call or text while in public.',iz:'在公共場合透過通話或訊息的指令。'},
+{en:'Being exposed to strangers (non-nude)',zh:'在陌生人面前暴露（非裸體）',ie:'Wearing revealing clothing that feels exposed — no nudity.',iz:'穿著暴露但不涉及裸體。'},
+{en:'Flirting because I instructed it',zh:'因指示而調情',ie:'Adopting a flirtatious manner on your partner\'s command.',iz:'按對方命令採取調情方式。'},
+{en:'Mild risk of getting caught',zh:'輕微被抓到的風險',ie:'Low-stakes scenarios — the risk adds excitement.',iz:'低風險場景——風險增加興奮感。'},
+{en:'Stronger public-play scenarios',zh:'更強烈的公共場所場景',ie:'Higher-risk scenarios with greater exposure.',iz:'更高風險的暴露場景。'},
+]},
+{id:'voyeur',icon:'ti-video',en:'Voyeurism & Sharing',zh:'窺視與分享',q:[
+{en:'Sending photos on request',zh:'應要求發送照片',ie:'Taking and sending photos when your partner asks.',iz:'應對方要求拍攝並發送照片。'},
+{en:'Sending videos on request',zh:'應要求發送影片',ie:'Recording short video clips on command.',iz:'按命令錄製短片。'},
+{en:'Livestreaming intimate activities',zh:'直播親密活動',ie:'Live video for your partner — they watch without being seen.',iz:'僅為對方提供即時視頻。'},
+{en:'Recording content specifically for me',zh:'專門為我錄製內容',ie:'Creating content for your partner\'s private enjoyment.',iz:'創作供對方私人享用的內容。'},
+{en:'Receiving instructions while being watched',zh:'被觀看時接收指令',ie:'Your partner directs your actions via live stream.',iz:'對方透過直播指揮你的行動。'},
+]},
+{id:'remote',icon:'ti-device-mobile',en:'Remote Sexual Control',zh:'遠端性控制',q:[
+{en:'Sexual tasks while alone',zh:'獨自執行性任務',ie:'Instructions for sexual activity at your partner\'s command.',iz:'按對方命令的性活動指令。'},
+{en:'Scheduled masturbation sessions',zh:'定期安排自慰時間',ie:'Specific times set for self-pleasure.',iz:'設定自我愉悅的特定時間。'},
+{en:'Permission-based masturbation',zh:'基於許可的自慰',ie:'Any masturbation requires explicit permission first.',iz:'任何自慰都需先獲得許可。'},
+{en:'Orgasm control',zh:'高潮控制',ie:'Your partner decides when, how, or whether you climax.',iz:'對方決定你何時或是否達到高潮。'},
+{en:'Orgasm denial',zh:'高潮拒絕',ie:'Extended periods where orgasm is withheld.',iz:'延長禁止高潮的時期。'},
+{en:'Ruined orgasms',zh:'毀壞的高潮',ie:'Stimulation stopped right at climax — unresolved arousal.',iz:'高潮時刻停止刺激——懸而未決的興奮。'},
+{en:'Edging sessions',zh:'邊緣訓練',ie:'Repeated cycles of approaching and stopping.',iz:'反復接近高潮然後停止的循環。'},
+{en:'Recording sexual tasks',zh:'記錄性任務',ie:'Capturing evidence of completed tasks to share.',iz:'捕捉完成任務的證據並分享。'},
+{en:'Reporting masturbation details',zh:'彙報自慰細節',ie:'Describing what you did, duration, thoughts — for your partner.',iz:'描述你做了什麼、多長時間、想了什麼。'},
+{en:'Wearing a toy during daily activities',zh:'日常活動中穿戴玩具',ie:'Using a wearable toy throughout your day.',iz:'在一天中使用可穿戴玩具。'},
+{en:'Secret sexual tasks while outside',zh:'外出時秘密性任務',ie:'Discreet tasks performed when you\'re out.',iz:'你在外面時執行的謹慎任務。'},
+{en:'Secret tasks while with friends',zh:'與朋友在一起時秘密性任務',ie:'Tasks in social settings — heightened secrecy.',iz:'在社交環境中執行的任務——增強秘密感。'},
+{en:'Unexpected sexual instructions during the day',zh:'白天突然收到性指令',ie:'Surprise commands at unpredictable times.',iz:'在不可預測的時間發送的意外命令。'},
+{en:'Being teased without immediate release',zh:'被挑逗但不立即釋放',ie:'Arousal built up without permission to act on it.',iz:'建立興奮感但尚未獲准付諸行動。'},
+]},
+{id:'fantasy',icon:'ti-stars',en:'Fantasy Exploration',zh:'幻想探索',q:[
+{en:'Fantasies involving other men',zh:'涉及其他男性的幻想',ie:'Erotic scenarios including other men — purely fantasy.',iz:'包含其他男性的情慾場景——純屬幻想。'},
+{en:'Fantasies involving other women',zh:'涉及其他女性的幻想',ie:'Erotic scenarios involving other women — as fantasy material.',iz:'涉及其他女性的情慾場景——作為幻想素材。'},
+{en:'Fantasies involving people we know',zh:'涉及認識的人的幻想',ie:'Erotic imagination involving real people in your circle.',iz:'涉及你們社交圈中真實人物的情慾想象。'},
+{en:'Fantasies involving famous people',zh:'涉及名人的幻想',ie:'Celebrity fantasies — a very common category.',iz:'名人幻想——非常常見的類別。'},
+{en:'Voyeurism fantasies',zh:'窺視幻想',ie:'Arousal from imagining watching others unseen.',iz:'從想象在不被看見的情況下觀看他人獲得興奮。'},
+{en:'Exhibitionism fantasies',zh:'暴露癖幻想',ie:'Arousal from imagining being watched.',iz:'從想象被觀看獲得興奮。'},
+{en:'Public sex fantasies',zh:'公開性愛幻想',ie:'Sexual activity in public spaces — as fantasy.',iz:'在公共場所進行性活動——作為幻想。'},
+{en:'Group sex fantasies',zh:'群交幻想',ie:'Scenarios involving more than two people.',iz:'涉及兩人以上的場景。'},
+{en:'MMF fantasies',zh:'男男女（MMF）幻想',ie:'Scenarios with two men and one woman.',iz:'涉及兩男一女的場景。'},
+{en:'FFM fantasies',zh:'女女男（FFM）幻想',ie:'Scenarios with two women and one man.',iz:'涉及兩女一男的場景。'},
+{en:'Cuckold/cuckquean fantasies',zh:'綠帽/女綠帽幻想',ie:'Partner with someone else while you know — eroticized jealousy.',iz:'對方與他人性關係而你知情——情色化嫉妒。'},
+{en:'Hotwife/stag-vixen fantasies',zh:'妻子出軌/丈夫分享幻想',ie:'One partner encouraged to pursue others — non-monogamy fantasy.',iz:'一方被鼓勵追求他人——非單偶幻想。'},
+{en:'Stranger encounter fantasies',zh:'陌生人邂逅幻想',ie:'Erotic scenarios with unknown people — anonymity is the appeal.',iz:'與陌生人的情慾場景——匿名性是吸引力。'},
+{en:'Kidnapping/capture roleplay',zh:'綁架/俘虜角色扮演幻想',ie:'Consensual non-consent involving capture — purely roleplay.',iz:'涉及俘獲的合意非同意場景——純粹角色扮演。'},
+{en:'Authority figure roleplay',zh:'權威人物角色扮演',ie:'One partner plays boss, teacher, officer; the other submits.',iz:'一方扮演老闆、老師、警察；另一方服從。'},
+{en:'Pet play fantasies',zh:'寵物扮演幻想',ie:'One partner takes an animal persona (kitten, puppy).',iz:'一方扮演動物角色（小貓、小狗）。'},
+{en:'Owner/property fantasies',zh:'主人/財產幻想',ie:'One partner treated as owned by the other.',iz:'一方被視為歸另一方所有。'},
+]}
+];
+const CS={en:'Communication Preferences',zh:'溝通偏好',icon:'ti-settings',q:[
+{en:'How often would you like to play during the week?',zh:'你希望每週玩幾次？',oe:['Daily','2–3x/week','Weekends only','Flexible'],oz:['每天','每週2–3次','僅週末','彈性']},
+{en:'Preferred time of day for communication?',zh:'偏好哪個時段溝通？',oe:['Morning','Afternoon','Evening','Night'],oz:['早上','下午','傍晚','深夜']},
+{en:'Do you like async play?',zh:'你喜歡非同步玩耍嗎？',oe:['Yes, love it','Sometimes','Not really','No'],oz:['喜歡','有時候','不太','不喜歡']},
+]};
+const OS={en:'Open-Ended Questions',zh:'開放式問題',icon:'ti-pencil',q:[
+{en:'What are your top 5 fantasies?',zh:'你最喜歡的5個幻想是什麼？'},
+{en:'What BDSM activities are you most curious about?',zh:'你對哪些BDSM活動最感好奇？'},
+{en:'What are your hard limits?',zh:'你的絕對禁區是什麼？'},
+{en:'What are your soft limits?',zh:'你的彈性界限是什麼？'},
+{en:'What activities would you like to try in 6 months?',zh:'你希望在6個月內嘗試哪些活動？'},
+{en:'What activities do you never want to try?',zh:'你永遠不想嘗試哪些活動？'},
+{en:'What makes you feel most desired?',zh:'什麼讓你感到最被渴望？'},
+{en:'What makes you feel most submissive?',zh:'什麼讓你感到最服從？'},
+{en:'Biggest concerns regarding BDSM play?',zh:'你對BDSM玩耍最大的擔憂？'},
+{en:'Your ideal long-distance BDSM dynamic?',zh:'你理想的遠距BDSM關係？'},
+]};
+const UI={en:{title:'BDSM Long-Distance Preferences',sub:'Rate your interest (1–10). Tap <i class="ti ti-info-circle" style="font-size:13px"></i> for info. Add notes or use voice. 0 = skip.',addN:'+ Note',hideN:'− Note',nPh:'Add a note...',oPh:'Your answer...',step:'Step',of:'of',next:'Next →',prev:'← Back',submit:'View results →',clear:'Clear all',filled:'rated',sortD:'Original order',sortH:'Score ↓',sortL:'Score ↑',share:'Share',shareOk:'Link copied!',resT:'Preferences Summary',back:'← Edit',exp:'Copy text',trN:'Translate your notes to',trBtn:'Translate now',trL:'Translating...',trOk:'Translated',trF:'Translation failed',copied:'Copied!',clrC:'Clear all responses?',micS:'Listening...',micE:'Voice not available — use HTTPS',micD:'Mic access denied',shV:'Viewing shared results'},zh:{title:'BDSM 遠距偏好調查',sub:'為每項活動評分（1–10）。點擊 <i class="ti ti-info-circle" style="font-size:13px"></i> 查看說明。0 = 跳過。',addN:'+ 備註',hideN:'− 備註',nPh:'輸入備註...',oPh:'輸入你的回答...',step:'第',of:'步，共',next:'下一步 →',prev:'← 上一步',submit:'查看結果 →',clear:'清除全部',filled:'已評分',sortD:'原始順序',sortH:'分數 ↓',sortL:'分數 ↑',share:'分享',shareOk:'連結已複製！',resT:'偏好摘要',back:'← 返回編輯',exp:'複製文字',trN:'將備註翻譯為',trBtn:'立即翻譯',trL:'翻譯中...',trOk:'翻譯完成',trF:'翻譯失敗',copied:'已複製！',clrC:'確定清除所有回答？',micS:'聆聽中...',micE:'語音不可用——請使用 HTTPS',micD:'麥克風被拒',shV:'正在查看分享的結果'}};
+
+let lang='en',curStep=0,ratings={},notes={},commA={},openA={},trToEn={},trToZh={},sortMode='default',totalQ=0,activeRec=null;
+const STEPS=S.map(s=>({type:'rated',data:s}));
+STEPS.push({type:'comm',data:CS});
+STEPS.push({type:'open',data:OS});
+const TOTAL_STEPS=STEPS.length;
+totalQ=S.reduce((a,s)=>a+s.q.length,0);
+
+function T(k){return UI[lang][k]||UI.en[k]}
+function TQ(o){return o[lang]||o.en}
+function setLang(l){
+  lang=l;
+  ['btnEn','rBtnEn'].forEach(i=>{const e=document.getElementById(i);if(e)e.classList.toggle('active',l==='en')});
+  ['btnZh','rBtnZh'].forEach(i=>{const e=document.getElementById(i);if(e)e.classList.toggle('active',l==='zh')});
+  if(document.getElementById('vResults').style.display!=='none'){updateResultsUI();buildResults();}
+  else renderStep();
+}
+
+// ─── STEP NAV ─────────────────────────────────────────────────────────
+function renderStep(){
+  document.getElementById('sTitle').textContent=T('title');
+  document.getElementById('sSub').innerHTML=T('sub');
+  const stepEn=`${T('step')} ${curStep+1} ${T('of')} ${TOTAL_STEPS}`;
+  document.getElementById('stepLabel').textContent=lang==='zh'?`${T('step')} ${curStep+1} ${T('of')} ${TOTAL_STEPS} 步`:stepEn;
+  const rated=Object.values(ratings).filter(v=>v>0).length;
+  document.getElementById('stepFilled').textContent=`${rated}/${totalQ} ${T('filled')}`;
+  document.getElementById('progBar').style.width=Math.round(rated/totalQ*100)+'%';
+  // dots
+  const dots=document.getElementById('stepDots');
+  dots.innerHTML='';
+  for(let i=0;i<TOTAL_STEPS;i++){
+    const d=document.createElement('span');
+    d.className='step-dot'+(i===curStep?' active':hasStepData(i)?' done':'');
+    d.onclick=()=>{curStep=i;renderStep();window.scrollTo(0,0)};
+    dots.appendChild(d);
+  }
+  // content
+  const cont=document.getElementById('stepContent');
+  cont.innerHTML='';
+  const step=STEPS[curStep];
+  if(step.type==='rated') renderRatedStep(cont,step.data);
+  else if(step.type==='comm') renderCommStep(cont,step.data);
+  else renderOpenStep(cont,step.data);
+  // nav bar
+  document.getElementById('navPrev').style.visibility=curStep>0?'visible':'hidden';
+  document.getElementById('navPrev').textContent=T('prev');
+  const isLast=curStep===TOTAL_STEPS-1;
+  document.getElementById('navNext').textContent=isLast?T('submit'):T('next');
+  document.getElementById('navCenter').textContent=`${curStep+1} / ${TOTAL_STEPS}`;
+}
+
+function hasStepData(i){
+  const step=STEPS[i];
+  if(step.type==='rated') return step.data.q.some((_,qi)=>ratings[step.data.id+'_'+qi]>0);
+  if(step.type==='comm') return Object.keys(commA).length>0;
+  return Object.keys(openA).some(k=>openA[k]&&openA[k].trim());
+}
+
+function nextStep(){
+  if(curStep<TOTAL_STEPS-1){curStep++;renderStep();window.scrollTo(0,0);}
+  else showResults();
+}
+function prevStep(){if(curStep>0){curStep--;renderStep();window.scrollTo(0,0);}}
+
+function renderRatedStep(cont,sec){
+  cont.innerHTML=`<div class="sec-head"><i class="ti ${sec.icon} sec-icon" aria-hidden="true"></i>${TQ(sec)}</div>`;
+  sec.q.forEach((q,qi)=>{
+    const id=sec.id+'_'+qi;
+    if(ratings[id]===undefined)ratings[id]=0;
+    const hasN=!!(notes[id]&&notes[id].trim());
+    const c=document.createElement('div');c.className='q-card';
+    c.innerHTML=`<div class="q-top"><span class="q-num">${qi+1}</span><span class="q-text">${TQ(q)}</span><button class="q-info" onclick="document.getElementById('tip_${id}').classList.toggle('open')"><i class="ti ti-info-circle" aria-hidden="true"></i></button></div>
+<div class="q-tip" id="tip_${id}">${lang==='zh'?(q.iz||q.ie):(q.ie||q.iz)}</div>
+<div class="rating-row"><span class="rl">0</span><input type="range" min="0" max="10" step="1" value="${ratings[id]}" oninput="R('${id}',this)"><span class="rl right">10</span><span class="r-val" id="v_${id}">${ratings[id]}</span></div>
+<button class="note-toggle" onclick="TN('${id}',this)">${hasN?T('hideN'):T('addN')}</button>
+<div class="note-area${hasN?' open':''}" id="n_${id}"><div class="note-row"><textarea placeholder="${T('nPh')}" oninput="notes['${id}']=this.value;trToEn['${id}']='';trToZh['${id}']='';">${notes[id]||''}</textarea><button class="mic-btn" onclick="mic('${id}','note')"><i class="ti ti-microphone" style="font-size:15px" aria-hidden="true"></i></button></div><div class="mic-st" id="ms_${id}"></div></div>`;
+    cont.appendChild(c);
+  });
+}
+
+function renderCommStep(cont,sec){
+  cont.innerHTML=`<div class="sec-head"><i class="ti ${sec.icon} sec-icon" aria-hidden="true"></i>${TQ(sec)}</div>`;
+  sec.q.forEach((q,qi)=>{
+    const id='comm_'+qi;
+    const hasN=!!(notes[id]&&notes[id].trim());
+    const c=document.createElement('div');c.className='comm-card';
+    const opts=q.oe.map((o,oi)=>`<button class="comm-opt${commA[qi]===oi?' sel':''}" onclick="selC(${qi},${oi},this)">${lang==='zh'?q.oz[oi]:q.oe[oi]}</button>`).join('');
+    c.innerHTML=`<div class="comm-label">${TQ(q)}</div><div class="comm-opts">${opts}</div>
+<button class="note-toggle" style="margin-left:0" onclick="TN('${id}',this)">${hasN?T('hideN'):T('addN')}</button>
+<div class="note-area${hasN?' open':''}" style="margin-left:0" id="n_${id}"><div class="note-row"><textarea placeholder="${T('nPh')}" oninput="notes['${id}']=this.value;trToEn['${id}']='';trToZh['${id}']='';">${notes[id]||''}</textarea><button class="mic-btn" onclick="mic('${id}','note')"><i class="ti ti-microphone" style="font-size:15px" aria-hidden="true"></i></button></div><div class="mic-st" id="ms_${id}"></div></div>`;
+    cont.appendChild(c);
+  });
+}
+
+function renderOpenStep(cont,sec){
+  cont.innerHTML=`<div class="sec-head"><i class="ti ${sec.icon} sec-icon" aria-hidden="true"></i>${TQ(sec)}</div>`;
+  sec.q.forEach((q,qi)=>{
+    const c=document.createElement('div');c.className='open-card';
+    c.innerHTML=`<div class="open-label">${qi+1}. ${TQ(q)}</div><div class="open-row"><textarea class="open-ta" placeholder="${T('oPh')}" oninput="openA[${qi}]=this.value;trToEn['o${qi}']='';trToZh['o${qi}']='';">${openA[qi]||''}</textarea><button class="mic-btn" onclick="mic('open_${qi}','open')"><i class="ti ti-microphone" style="font-size:15px" aria-hidden="true"></i></button></div><div class="mic-st" id="ms_open_${qi}"></div>`;
+    cont.appendChild(c);
+  });
+}
+
+function R(id,el){ratings[id]=+el.value;document.getElementById('v_'+id).textContent=ratings[id];const r=Object.values(ratings).filter(v=>v>0).length;document.getElementById('stepFilled').textContent=`${r}/${totalQ} ${T('filled')}`;document.getElementById('progBar').style.width=Math.round(r/totalQ*100)+'%';document.querySelectorAll('.step-dot')[curStep].classList.add('done');}
+function TN(id,btn){const a=document.getElementById('n_'+id);const o=a.classList.toggle('open');btn.textContent=o?T('hideN'):T('addN');}
+function selC(qi,oi,btn){commA[qi]=oi;btn.closest('.comm-opts').querySelectorAll('.comm-opt').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');}
+
+// ─── VOICE ────────────────────────────────────────────────────────────
+function mic(id,type){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR||!window.isSecureContext){toast(T('micE'),4000);return;}
+  if(activeRec){try{activeRec.stop();}catch(e){}activeRec=null;}
+  const r=new SR();r.lang=lang==='zh'?'zh-TW':'en-US';r.interimResults=false;
+  const st=document.getElementById('ms_'+id);
+  const mb=document.querySelector(`[onclick="mic('${id}','${type}')"]`);
+  if(mb)mb.classList.add('recording');
+  if(st){st.textContent=T('micS');st.className='mic-st on';}
+  activeRec=r;
+  r.onresult=e=>{
+    const tx=e.results[0][0].transcript;
+    if(type==='open'){const qi=+id.replace('open_','');const tas=document.querySelectorAll('.open-ta');if(tas[qi]){tas[qi].value+=(tas[qi].value?' ':'')+tx;openA[qi]=tas[qi].value;trToEn['o'+qi]='';trToZh['o'+qi]='';}}
+    else{const ta=document.querySelector('#n_'+id+' textarea');if(ta){ta.value+=(ta.value?' ':'')+tx;notes[id]=ta.value;trToEn[id]='';trToZh[id]='';}}
+  };
+  r.onend=()=>{if(mb)mb.classList.remove('recording');if(st){st.textContent='';st.className='mic-st';}activeRec=null;};
+  r.onerror=e=>{if(mb)mb.classList.remove('recording');if(st){st.textContent='';st.className='mic-st';}toast(e.error==='not-allowed'?T('micD'):T('micE'),3000);activeRec=null;};
+  try{r.start();}catch(e){toast(T('micE'),4000);}
+}
+
+// ─── TRANSLATION (MyMemory — free, no key) ────────────────────────────
+async function tr1(text,lp){
+  const r=await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${lp}`);
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  const d=await r.json();
+  if(d.responseStatus===200&&d.responseData?.translatedText){
+    let t=d.responseData.translatedText;
+    if(t===t.toUpperCase()&&text!==text.toUpperCase())t=t.charAt(0).toUpperCase()+t.slice(1).toLowerCase();
+    return t;
+  }
+  throw new Error(d.responseDetails||'fail');
+}
+
+async function runTranslation(){
+  const btn=document.getElementById('trBtn');
+  const st=document.getElementById('trStatus');
+  btn.disabled=true;btn.textContent=T('trL');
+  const toZh=lang==='zh';
+  const lp=toZh?'en|zh-TW':'zh-TW|en';
+  const store=toZh?trToZh:trToEn;
+  const jobs=[];
+  S.forEach(sec=>{sec.q.forEach((_,qi)=>{const id=sec.id+'_'+qi;if(notes[id]&&notes[id].trim()&&!store[id])jobs.push({k:id,t:notes[id]});});});
+  CS.q.forEach((_,qi)=>{const id='comm_'+qi;if(notes[id]&&notes[id].trim()&&!store[id])jobs.push({k:id,t:notes[id]});});
+  OS.q.forEach((_,qi)=>{const k='o'+qi;if(openA[qi]&&openA[qi].trim()&&!store[k])jobs.push({k,t:openA[qi]});});
+  if(!jobs.length){st.textContent=T('trOk');btn.disabled=false;btn.textContent=T('trBtn');buildResults();return;}
+  let done=0,fail=0;
+  st.textContent=`${T('trL')} (0/${jobs.length})`;
+  for(const j of jobs){
+    try{store[j.k]=await tr1(j.t,lp);done++;}catch(e){fail++;}
+    st.textContent=`${T('trL')} (${done+fail}/${jobs.length})`;
+  }
+  st.textContent=fail>0?`${T('trOk')} (${fail} failed)`:T('trOk');
+  btn.disabled=false;btn.textContent=T('trBtn');
+  buildResults();
+}
+
+// ─── RESULTS ──────────────────────────────────────────────────────────
+function showResults(){
+  document.getElementById('vSurvey').style.display='none';
+  document.getElementById('fixedBar').style.display='none';
+  document.getElementById('vResults').style.display='block';
+  updateResultsUI();buildResults();window.scrollTo(0,0);
+}
+function goBack(){
+  document.getElementById('vResults').style.display='none';
+  document.getElementById('vSurvey').style.display='block';
+  document.getElementById('fixedBar').style.display='block';
+  renderStep();window.scrollTo(0,0);
+}
+function updateResultsUI(){
+  document.getElementById('rTitle').textContent=T('resT');
+  document.getElementById('rBack').textContent=T('back');
+  document.getElementById('rExport').textContent=T('exp');
+  document.getElementById('shareLbl').textContent=T('share');
+  updateSortLabel();
+  const tgt=lang==='zh'?'中文':'English';
+  document.getElementById('trStatus').textContent=`${T('trN')} ${tgt}`;
+  document.getElementById('trBtn').textContent=T('trBtn');
+}
+function toggleSort(){sortMode=sortMode==='default'?'high':sortMode==='high'?'low':'default';updateSortLabel();buildResults();}
+function updateSortLabel(){document.getElementById('sortLbl').textContent=sortMode==='high'?T('sortH'):sortMode==='low'?T('sortL'):T('sortD');}
+
+function buildResults(){
+  const cont=document.getElementById('resCont');cont.innerHTML='';
+  const vals=Object.values(ratings).filter(v=>v>0);
+  const avg=vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1):0;
+  document.getElementById('rMeta').textContent=lang==='zh'?`已回答 ${vals.length}/${totalQ} 題 · 平均 ${avg}/10`:`${vals.length} of ${totalQ} rated · Avg ${avg}/10`;
+  const store=lang==='zh'?trToZh:trToEn;
+  S.forEach(sec=>{
+    let items=sec.q.map((q,qi)=>({q,id:sec.id+'_'+qi,score:ratings[sec.id+'_'+qi]||0})).filter(x=>x.score>0);
+    if(!items.length)return;
+    if(sortMode==='high')items=[...items].sort((a,b)=>b.score-a.score);
+    else if(sortMode==='low')items=[...items].sort((a,b)=>a.score-b.score);
+    const blk=document.createElement('div');blk.className='res-sec';
+    blk.innerHTML=`<div class="res-sec-title">${TQ(sec)}</div>`;
+    items.forEach(({q,id,score})=>{
+      const it=document.createElement('div');it.className='res-item';
+      const n=notes[id],tr=store[id];
+      it.innerHTML=`<div style="flex:1"><div class="res-qtext">${TQ(q)}</div>${n?`<div class="res-note">${n}</div>`:''}${tr?`<div class="res-note-tr">↳ ${tr}</div>`:''}</div><div class="score-wrap"><div class="score-bar-bg"><div class="score-bar" style="width:${Math.round(score/10*100)}%"></div></div><span class="score-num ${score>=8?'score-high':''}">${score}</span></div>`;
+      blk.appendChild(it);
+    });
+    cont.appendChild(blk);
+  });
+  const commHasNotes=CS.q.some((_,qi)=>notes['comm_'+qi]&&notes['comm_'+qi].trim());
+  if(Object.keys(commA).length||commHasNotes){
+    const blk=document.createElement('div');blk.className='res-sec';
+    blk.innerHTML=`<div class="res-sec-title">${TQ(CS)}</div>`;
+    CS.q.forEach((q,qi)=>{if(commA[qi]===undefined&&!(notes['comm_'+qi]&&notes['comm_'+qi].trim()))return;const ans=commA[qi]!==undefined?(lang==='zh'?q.oz[commA[qi]]:q.oe[commA[qi]]):'—';const id='comm_'+qi;const n=notes[id],tr=store[id];const it=document.createElement('div');it.className='res-item';it.innerHTML=`<div style="flex:1"><div class="res-qtext">${TQ(q)}</div>${n?`<div class="res-note">${n}</div>`:''}${tr?`<div class="res-note-tr">↳ ${tr}</div>`:''}</div><span style="font-size:13px;font-weight:500;white-space:nowrap;flex-shrink:0;padding-top:2px">${ans}</span>`;blk.appendChild(it);});
+    cont.appendChild(blk);
+  }
+  let hasO=false;const oblk=document.createElement('div');oblk.className='res-sec';
+  OS.q.forEach((q,qi)=>{if(!openA[qi])return;hasO=true;const tr=store['o'+qi];const it=document.createElement('div');it.className='res-item';it.style.cssText='flex-direction:column;align-items:flex-start';it.innerHTML=`<div class="res-qtext" style="margin-bottom:5px">${TQ(q)}</div><div class="open-ans">${openA[qi]}</div>${tr?`<div class="open-ans-tr">↳ ${tr}</div>`:''}`;oblk.appendChild(it);});
+  if(hasO){oblk.insertAdjacentHTML('afterbegin',`<div class="res-sec-title">${TQ(OS)}</div>`);cont.appendChild(oblk);}
+}
+
+// ─── SHARE ────────────────────────────────────────────────────────────
+function shareResults(){
+  const state={ratings,notes,commA,openA,lang};
+  const url=`${location.origin}${location.pathname}?s=${btoa(encodeURIComponent(JSON.stringify(state)))}`;
+  if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(url).then(()=>toast(T('shareOk'))).catch(()=>fbCopy(url));
+  else fbCopy(url);
+}
+function fbCopy(url){const t=document.createElement('textarea');t.value=url;t.style.cssText='position:fixed;opacity:0';document.body.appendChild(t);t.select();try{document.execCommand('copy');toast(T('shareOk'));}catch(e){toast('Copy URL manually',4000);}document.body.removeChild(t);}
+
+function loadShared(){
+  const p=new URLSearchParams(location.search);
+  const d=p.get('s');if(!d)return false;
+  try{const st=JSON.parse(decodeURIComponent(atob(d)));ratings=st.ratings||{};notes=st.notes||{};commA=st.commA||{};openA=st.openA||{};if(st.lang)lang=st.lang;return true;}catch(e){return false;}
+}
+
+function exportText(){
+  let t=(lang==='zh'?'BDSM 遠距偏好結果':'BDSM Preferences Results')+'\n\n';
+  const store=lang==='zh'?trToZh:trToEn;
+  S.forEach(sec=>{let items=sec.q.map((q,qi)=>({q,id:sec.id+'_'+qi,score:ratings[sec.id+'_'+qi]||0})).filter(x=>x.score>0);if(sortMode==='high')items.sort((a,b)=>b.score-a.score);else if(sortMode==='low')items.sort((a,b)=>a.score-b.score);if(!items.length)return;t+=`== ${TQ(sec)} ==\n`;items.forEach(({q,id,score})=>{t+=`[${score}/10] ${TQ(q)}`;if(notes[id])t+=`\n  ${notes[id]}`;if(store[id])t+=`\n  (${store[id]})`;t+='\n';});t+='\n';});
+  const commLines=CS.q.map((q,qi)=>{const id='comm_'+qi;if(commA[qi]===undefined&&!(notes[id]&&notes[id].trim()))return null;const ans=commA[qi]!==undefined?(lang==='zh'?q.oz[commA[qi]]:q.oe[commA[qi]]):'—';let line=`${TQ(q)}: ${ans}`;if(notes[id])line+=`\n  ${notes[id]}`;if(store[id])line+=`\n  (${store[id]})`;return line;}).filter(Boolean);
+  if(commLines.length){t+=`== ${TQ(CS)} ==\n`+commLines.join('\n')+'\n\n';}
+  if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(t).then(()=>toast(T('copied')));
+  else{const ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast(T('copied'));}catch(e){}document.body.removeChild(ta);}
+}
+
+function clearAll(){if(!confirm(T('clrC')))return;ratings={};notes={};commA={};openA={};trToEn={};trToZh={};curStep=0;renderStep();}
+let toastT=null;function toast(m,d=2200){const e=document.getElementById('toast');e.textContent=m;e.classList.add('show');if(toastT)clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('show'),d);}
+
+// ─── INIT ─────────────────────────────────────────────────────────────
+(function(){
+  const shared=loadShared();
+  if(shared){
+    ['btnEn','rBtnEn'].forEach(i=>{const e=document.getElementById(i);if(e)e.classList.toggle('active',lang==='en')});
+    ['btnZh','rBtnZh'].forEach(i=>{const e=document.getElementById(i);if(e)e.classList.toggle('active',lang==='zh')});
+    document.getElementById('vSurvey').style.display='none';
+    document.getElementById('fixedBar').style.display='none';
+    document.getElementById('vResults').style.display='block';
+    document.getElementById('sharedBanner').style.display='flex';
+    document.getElementById('sharedBanner').innerHTML=`<i class="ti ti-share" aria-hidden="true"></i>${T('shV')}`;
+    document.getElementById('exportRow').querySelector('#rBack').style.display='none';
+    updateResultsUI();buildResults();
+  } else {
+    renderStep();
+  }
+})();
+</script>
+</body>
+</html>
